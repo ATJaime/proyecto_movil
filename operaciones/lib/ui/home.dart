@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'select_page.dart';
+import 'controllers/controller.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage>  {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _gradeController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    MyController controller = Get.find();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registro de Usuario'),
+        title: const Text('Registro de Usuario'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,31 +21,23 @@ class _MyHomePageState extends State<MyHomePage>  {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Nombre'),
+              decoration: const InputDecoration(labelText: 'Nombre'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
-              controller: _gradeController,
-              decoration: InputDecoration(labelText: 'Grado'),
+              decoration: const InputDecoration(labelText: 'Grado'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
-              controller: _usernameController,
-              decoration: InputDecoration(labelText: 'Usuario'),
+              decoration: const InputDecoration(labelText: 'Usuario'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                Get.to(() => const SelectPage());
                 // Aquí puedes manejar la lógica de registro del usuario
-                String name = _nameController.text;
-                String grade = _gradeController.text;
-                String username = _usernameController.text;
 
-                // Por ejemplo, puedes imprimir los valores ingresados
-                print('Nombre: $name');
-                print('Grado: $grade');
-                print('Usuario: $username');
+                // Por ejemplo, puedes imprimir los valores ingresado
 
                 // Puedes realizar la lógica de registro aquí
 
@@ -60,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage>  {
                 //   builder: (context) => MyHomePage(),
                 // ));
               },
-              child: Text('Registrarse'),
+              child: const Text('Registrarse'),
             ),
           ],
         ),
