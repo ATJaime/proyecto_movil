@@ -2,13 +2,13 @@ import 'package:get/get.dart';
 
 class MyController extends GetxController {
   final _user = "".obs;
-  final _password = "".obs;
+  final _name = "".obs;
   final _grade = "".obs;
   final _score = 0.obs;
   final _age = 0.obs;
 
   String get user => _user.value;
-  String get password => _password.value;
+  String get name => _name.value;
   String get grade => _grade.value;
   int get score => _score.value;
   int get age => _age.value;
@@ -17,8 +17,8 @@ class MyController extends GetxController {
     _user.value = user;
   }
 
-  void updatePassword(String password) {
-    _password.value = password;
+  void updateName(String name) {
+    _name.value = name;
   }
 
   void updateGrade(String grade) {
