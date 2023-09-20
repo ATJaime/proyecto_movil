@@ -8,25 +8,36 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener el controlador
     MyController controller = Get.find();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seleccione Dificultad'),
+        title: const Text('Selecciona la Dificultad'),
       ),
       body: Center(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Obx(() => Text("Hola ${controller.name}")),
-          Obx(() => Text("Tu puntaje ${controller.score}")),
-          FloatingActionButton(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Muestra el nombre desde el controlador
+            Obx(() => Text("¡Hola, ${controller.name}!")),
+            
+            // Muestra el puntaje desde el controlador
+            Obx(() => Text("Tu puntaje: ${controller.score}")),
+            
+            // Botón para iniciar el test
+            ElevatedButton(
               onPressed: () {
+                // Navegar a la página del test
                 Get.to(() => TestPage());
               },
-              child: const Text("Iniciar")),
-        ],
-      )),
+              child: Text("Iniciar Test"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
