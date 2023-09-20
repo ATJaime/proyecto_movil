@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:operaciones/ui/controllers/controller.dart';
 import '../use_case/create_questions.dart';
 import './LevelSummaryPage.dart'; 
 
@@ -6,7 +8,7 @@ class TestPage extends StatefulWidget {
   @override
   _TestPageState createState() => _TestPageState();
 }
-
+MyController controller = Get.find();
 class _TestPageState extends State<TestPage> {
   final TextEditingController resultController = TextEditingController();
   String currentOperation = "";
@@ -25,7 +27,7 @@ class _TestPageState extends State<TestPage> {
   void generateRandomOperation() {
     setState(() {
       currentOperation =
-          MathOperations.generateRandomOperation(levelManager.getCurrentLevel());
+          MathOperations.generateRandomOperation(levelManager.getCurrentLevel(controller.lastCorrectAnswers));
       resultController.text = "";
     });
   }
@@ -62,7 +64,6 @@ class _TestPageState extends State<TestPage> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,7 +180,7 @@ class _TestPageState extends State<TestPage> {
                           if (!finished) {
                             // Obtener la respuesta del usuario
                             final userAnswer = resultController.text;
-                            print(levelManager.getCurrentLevel().toString());
+                            print(levelManager.getCurrentLevel(controller.lastCorrectAnswers).toString());
                             // Llamar al método generateNextQuestion y pasar el resultado del usuario
                             levelManager.almacenarQuestion(
                                 userAnswer, currentOperation);
@@ -188,6 +189,7 @@ class _TestPageState extends State<TestPage> {
                             if (levelManager.totalQuestions >= 6) {
                               setState(() {
                                 finished = true;
+                                controller.updateCorrectAnswers(levelManager.correctAnswers);
                               });
 
                               // Navegar a la página de resumen cuando el cuestionario haya finalizado

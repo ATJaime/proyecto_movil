@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:operaciones/ui/controllers/controller.dart';
 import '../use_case/create_questions.dart';
 import 'package:get/get.dart';
 import 'test_page.dart';
@@ -7,7 +8,7 @@ class LevelSummaryPage extends StatelessWidget {
   final LevelSummary levelSummary;
 
   LevelSummaryPage({required this.levelSummary});
-
+  MyController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

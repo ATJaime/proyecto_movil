@@ -45,11 +45,11 @@ class LevelManager {
   List<String> incorrectOperations = [];
   List<String> correctOperations = [];
 
-  DifficultyLevel getCurrentLevel() {
-  if (correctAnswers == 5) {
-    return DifficultyLevel.intermediate;
-  } else if (correctAnswers >= 4) {
+  DifficultyLevel getCurrentLevel(lastCorrectAnswers) {
+  if (lastCorrectAnswers == 6) {
     return DifficultyLevel.difficult;
+  } else if (lastCorrectAnswers >= 4) {
+    return DifficultyLevel.intermediate;
   } else {
     return DifficultyLevel.easy;
   }
@@ -92,17 +92,11 @@ class LevelManager {
         correctOperations: correctOperations,
       );
       levelSummaries.add(levelSummary);
-
-      // Cambia de nivel si se cumplen tus condiciones de puntuación
-      
-       DifficultyLevel newLevel = getCurrentLevel();
-       
        
       // Reinicia el contador de preguntas y la lista de operaciones incorrectas
       totalQuestions = 0;
       incorrectOperations = [];
       correctOperations = [];
-      
     }
 
     
