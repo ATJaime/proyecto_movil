@@ -11,31 +11,29 @@ import 'package:loggy/loggy.dart';
 
 void main() {
   Get.lazyPut<MyController>(() => MyController());
-    Loggy.initLoggy(
-      logPrinter: const PrettyPrinter(
-        showColors: true,
-      ),
-    );
+  Loggy.initLoggy(
+    logPrinter: const PrettyPrinter(
+      showColors: true,
+    ),
+  );
 
-    Get.put(Repository());
-    Get.put(AuthenticationUseCase());
-    Get.put(UserUseCase());
-    Get.put(AuthenticationController());
-    Get.put(UserController());
-    runApp(const MyApp());
-  }
+  Get.put(Repository());
+  Get.put(AuthenticationUseCase());
+  Get.put(UserUseCase());
+  Get.put(AuthenticationController());
+  Get.put(UserController());
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
       home: const Central(),
     );
