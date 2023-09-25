@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:operaciones/ui/controllers/controller.dart';
+import 'package:operaciones/ui/start_page.dart';
 import '../use_case/create_questions.dart';
 import 'package:get/get.dart';
 import 'test_page.dart';
@@ -59,9 +60,27 @@ class LevelSummaryPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Get.to(()=> TestPage());
+                 final snackBar = SnackBar(
+                content: Text('¡Enhorabuena! Has pasado al nivel ${controller.currentLevel.toString().split('.').last}'),
+                duration: Duration(seconds: 3), // Duración del mensaje flotante
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                Get.to(() => TestPage());
               },
               child: Text('Continuar'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Reinicia los valores necesarios en MyController antes de regresar a StartPage
+                controller.updateCurrentLevel(DifficultyLevel.easy);
+                controller.updateCorrectAnswers(0);
+
+                // Regresa a StartPage
+                Get.offAll(() => StartPage());
+              },
+              child: Text('Terminar y Empezar de Nuevo'),
             ),
           ],
         ),

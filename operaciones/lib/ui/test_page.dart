@@ -5,6 +5,8 @@ import '../use_case/create_questions.dart';
 import './LevelSummaryPage.dart'; 
 
 class TestPage extends StatefulWidget {
+  
+
   @override
   _TestPageState createState() => _TestPageState();
 }
@@ -27,8 +29,10 @@ class _TestPageState extends State<TestPage> {
   void generateRandomOperation() {
     setState(() {
       currentOperation =
-          MathOperations.generateRandomOperation(levelManager.getCurrentLevel(controller.lastCorrectAnswers));
+          MathOperations.generateRandomOperation(controller.currentLevel, controller.currentOperation);
       resultController.text = "";
+      
+      
     });
   }
 
@@ -180,7 +184,7 @@ class _TestPageState extends State<TestPage> {
                           if (!finished) {
                             // Obtener la respuesta del usuario
                             final userAnswer = resultController.text;
-                            print(levelManager.getCurrentLevel(controller.lastCorrectAnswers).toString());
+                            
                             // Llamar al método generateNextQuestion y pasar el resultado del usuario
                             levelManager.almacenarQuestion(
                                 userAnswer, currentOperation);
@@ -189,7 +193,10 @@ class _TestPageState extends State<TestPage> {
                             if (levelManager.totalQuestions >= 6) {
                               setState(() {
                                 finished = true;
+                                //
                                 controller.updateCorrectAnswers(levelManager.correctAnswers);
+                                controller.updateCurrentLevel(levelManager.getCurrentLevel(controller.lastCorrectAnswers, controller.currentLevel));
+                                
                               });
 
                               // Navegar a la página de resumen cuando el cuestionario haya finalizado

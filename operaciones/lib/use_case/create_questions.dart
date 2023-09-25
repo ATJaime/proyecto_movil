@@ -7,20 +7,29 @@ enum DifficultyLevel {
 }
 
 class MathOperations {
-  static String generateRandomOperation(DifficultyLevel level) {
+  static String generateRandomOperation(DifficultyLevel level, String operation) {
     final random = Random();
     final maxNumber = level == DifficultyLevel.easy
         ? 10
         : level== DifficultyLevel.intermediate
             ? 50
             : 100; // Define los rangos de números según el nivel
-
+  
     int num1 = random.nextInt(maxNumber + 1);
     int num2 = random.nextInt(maxNumber + 1);
 
-    // Elige una operación aleatoria: suma, resta o multiplicación
     final operators = ['+', '-', '*'];
-    final operator = operators[random.nextInt(operators.length)];
+    final operator;
+    // Elige una operación aleatoria: suma, resta o multiplicación
+    if (operation=="Resta"){
+       operator= operators[1];
+    }else if (operation=="Multiplicación"){
+      operator= operators[2];
+    }else {
+      operator= operators[0];
+    }
+  
+    
 
     return '$num1 $operator $num2';
   }
@@ -45,14 +54,15 @@ class LevelManager {
   List<String> incorrectOperations = [];
   List<String> correctOperations = [];
 
-  DifficultyLevel getCurrentLevel(lastCorrectAnswers) {
-  if (lastCorrectAnswers == 6) {
-    return DifficultyLevel.difficult;
-  } else if (lastCorrectAnswers >= 4) {
-    return DifficultyLevel.intermediate;
-  } else {
-    return DifficultyLevel.easy;
-  }
+  DifficultyLevel getCurrentLevel(lastCorrectAnswers, DifficultyLevel previous) {
+
+  if ( previous == DifficultyLevel.easy  && lastCorrectAnswers >= 5) {
+      return DifficultyLevel.intermediate;
+    } else if (previous ==  DifficultyLevel.intermediate && lastCorrectAnswers >= 4) {
+      return DifficultyLevel.difficult;
+    } else {
+      return DifficultyLevel.easy; // Mantén el nivel actual si no se cumplen las condiciones
+   }
 }
 
   void almacenarQuestion(String userAnswer, String currentOperation) {
@@ -103,6 +113,5 @@ class LevelManager {
 
   }
 
-  
    
-}
+}  
