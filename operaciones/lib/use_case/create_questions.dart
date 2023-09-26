@@ -1,10 +1,10 @@
 import 'dart:math';
-
 enum DifficultyLevel {
   easy,
   intermediate,
   difficult,
 }
+
 
 class MathOperations {
   static String generateRandomOperation(DifficultyLevel level, String operation) {
@@ -65,7 +65,7 @@ class LevelManager {
    }
 }
 
-  void almacenarQuestion(String userAnswer, String currentOperation) {
+  void almacenarQuestion(String userAnswer, String currentOperation, int time) {
     if (totalQuestions < 6) {
       // Obtener los componentes de la operación actual
       final operationParts = currentOperation.split(' ');
@@ -87,10 +87,10 @@ class LevelManager {
       // Verificar si la respuesta del usuario es correcta e incrementar correctAnswers si es necesario
       if (userAnswer == correctAnswer.toString()) {
         correctAnswers++;
-        correctOperations.add(currentOperation);
+        correctOperations.add("Operación: $currentOperation. \t Tiempo: ${time.toString()} ms.");
       } else {
         // Respuesta incorrecta, agregar la operación a incorrectOperations
-        incorrectOperations.add(currentOperation);
+        incorrectOperations.add("Operación: $currentOperation. \t Tiempo:  ${time.toString()} ms.");
       }
       totalQuestions++;
     } else {

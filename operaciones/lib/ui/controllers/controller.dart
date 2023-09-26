@@ -74,4 +74,5 @@ class MyController extends GetxController {
         break;
     }
   }
+
 }

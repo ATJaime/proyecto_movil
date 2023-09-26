@@ -13,6 +13,7 @@ class TestPage extends StatefulWidget {
 MyController controller = Get.find();
 class _TestPageState extends State<TestPage> {
   final TextEditingController resultController = TextEditingController();
+  int time = 0;
   String currentOperation = "";
   LevelManager levelManager = LevelManager(); // Instancia de LevelManager
   bool finished =
@@ -31,7 +32,7 @@ class _TestPageState extends State<TestPage> {
       currentOperation =
           MathOperations.generateRandomOperation(controller.currentLevel, controller.currentOperation);
       resultController.text = "";
-      
+      time = DateTime.now().millisecondsSinceEpoch;
       
     });
   }
@@ -183,11 +184,12 @@ class _TestPageState extends State<TestPage> {
                         onPressed: () {
                           if (!finished) {
                             // Obtener la respuesta del usuario
+                            time = DateTime.now().millisecondsSinceEpoch - time;
                             final userAnswer = resultController.text;
                             
                             // Llamar al método generateNextQuestion y pasar el resultado del usuario
                             levelManager.almacenarQuestion(
-                                userAnswer, currentOperation);
+                                userAnswer, currentOperation, time);
 
 
                             if (levelManager.totalQuestions >= 6) {
@@ -196,7 +198,6 @@ class _TestPageState extends State<TestPage> {
                                 //
                                 controller.updateCorrectAnswers(levelManager.correctAnswers);
                                 controller.updateCurrentLevel(levelManager.getCurrentLevel(controller.lastCorrectAnswers, controller.currentLevel));
-                                
                               });
 
                               // Navegar a la página de resumen cuando el cuestionario haya finalizado
