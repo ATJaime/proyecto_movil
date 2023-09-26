@@ -8,6 +8,7 @@ class MyController extends GetxController {
   final _score = 0.obs;
   final _age = 0.obs;
   final _lastCorrectAnswers = 0.obs;
+  final _levels = [DifficultyLevel.easy.obs, DifficultyLevel.easy.obs, DifficultyLevel.easy.obs];
   final _currentLevel = DifficultyLevel.easy.obs; // Agregar _currentLevel
   final _currentOperation = "".obs; // Nuevo atributo para la operación actual
 
@@ -46,9 +47,31 @@ class MyController extends GetxController {
 
   void updateCurrentLevel(DifficultyLevel level) { // Agregar método para actualizar currentLevel
     _currentLevel.value = level;
+    switch(_currentOperation.value){
+      case "Suma":
+        _levels[0].value = _currentLevel.value;
+        break;
+      case "Multiplicación":
+        _levels[1].value = _currentLevel.value;
+        break;
+      case "Resta":
+        _levels[2].value = _currentLevel.value;
+        break;
+    }
   }
 
   void updateCurrentOperation(String operation) { // Método para actualizar la operación actual
     _currentOperation.value = operation;
+    switch(currentOperation){
+      case "Suma":
+        _currentLevel.value = _levels[0].value;
+        break;
+      case "Multiplicación":
+        _currentLevel.value = _levels[1].value;
+        break;
+      case "Resta":
+        _currentLevel.value = _levels[2].value;
+        break;
+    }
   }
 }
