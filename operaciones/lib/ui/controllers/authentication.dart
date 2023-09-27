@@ -8,16 +8,16 @@ class AuthenticationController extends GetxController {
 
   bool get isLogged => logged.value;
 
-  Future<void> login(name, grade, school) async {
+  Future<void> login(email, password) async {
     final AuthenticationUseCase authentication = Get.find();
-    await authentication.login(name, grade, school);
+    await authentication.login(email, password);
     logged.value = true;
   }
 
-  Future<bool> signUp(name, grade, school) async {
+  Future<bool> signUp(email, password) async {
     final AuthenticationUseCase authentication = Get.find();
     logInfo('Controller Sign Up');
-    await authentication.signUp(name, grade, school);
+    await authentication.signUp(email, password);
     return true;
   }
 

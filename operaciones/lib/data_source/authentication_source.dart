@@ -3,16 +3,15 @@ import 'package:loggy/loggy.dart';
 import 'package:http/http.dart' as http;
 
 class AuthenticationDatatasource {
-  Future<String> login(String baseUrl, String name, String grade, String school) async {
+  Future<String> login(String baseUrl, String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/login"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "username": name,
-        "password": grade,
-        "school": school
+        "username": email,
+        "password": password,
       }),
     );
 
@@ -27,16 +26,17 @@ class AuthenticationDatatasource {
     }
   }
 
-  Future<bool> signUp(String baseUrl, String name, String grade, String school) async {
+  Future<bool> signUp(String baseUrl, String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/register"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "username": name,
-        "grade": grade,
-        "school": school,
+        "username": email,
+        "first_name": email,
+        "last_name": email,
+        "password": password,
       }),
     );
 

@@ -1,33 +1,31 @@
 class User {
   User({
     this.id,
-    required this.name,
-    required this.grade,
-    required this.school,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
   });
 
   int? id;
-  String name;
-  String grade;
-  String school;
+  String firstName;
+  String lastName;
+  String email;
 
-  String get userName => name;
+  String get name => '$firstName $lastName';
 
-  String get userGrade => grade;
-
-  String get userSchool => school;
+  String get emailAddress => email;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
-        name: json["Name"] ?? "someName",
-        grade: json["Grade"] ?? "someGrade",
-        school: json["School"] ?? "someSchool",
+        firstName: json["firstName"] ?? "somefirstName",
+        lastName: json["lastName"] ?? "someLastName",
+        email: json["email"] ?? "someemail",
       );
 
   Map<String, dynamic> toJson() => {
         "id": id ?? 0,
-        "name": name,
-        "grade": grade,
-        "school": school,
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
       };
 }

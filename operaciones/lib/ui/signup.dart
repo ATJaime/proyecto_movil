@@ -12,14 +12,13 @@ class SignUp extends StatefulWidget {
 
 class _FirebaseSignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
-  final controllerName = TextEditingController();
-  final controllerGrade = TextEditingController();
-  final controllerSchool = TextEditingController();
+  final controllerEmail = TextEditingController(text: 'a@a.com');
+  final controllerPassword = TextEditingController(text: '123456');
   AuthenticationController authenticationController = Get.find();
 
-  _signup(theName, theGrade, theSchool) async {
+  _signup(theEmail, thePassword) async {
     try {
-      await authenticationController.signUp(theName, theGrade, theSchool);
+      await authenticationController.signUp(theEmail, thePassword);
 
       Get.snackbar(
         "Sign Up",
@@ -58,13 +57,17 @@ class _FirebaseSignUpState extends State<SignUp> {
                           height: 20,
                         ),
                         TextFormField(
-                          keyboardType: TextInputType.name,
-                          controller: controllerName,
+                          keyboardType: TextInputType.emailAddress,
+                          controller: controllerEmail,
                           decoration:
-                              const InputDecoration(labelText: "Nombre"),
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return "Ingrese nombre";
+                              const InputDecoration(labelText: "Email address"),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              logError('SignUp validation empty email');
+                              return "Enter email";
+                            } else if (!value.contains('@')) {
+                              logError('SignUp validation invalid email');
+                              return "Enter valid email address";
                             }
                             return null;
                           },
@@ -73,23 +76,16 @@ class _FirebaseSignUpState extends State<SignUp> {
                           height: 20,
                         ),
                         TextFormField(
-                          controller: controllerGrade,
-                          decoration: const InputDecoration(labelText: "Grado"),
+                          controller: controllerPassword,
+                          decoration:
+                              const InputDecoration(labelText: "Password"),
                           keyboardType: TextInputType.number,
-                          validator: (String? value) {
+                          obscureText: true,
+                          validator: (value) {
                             if (value!.isEmpty) {
-                              return "Ingrese Grado";
-                            }
-                            return null;
-                          },
-                        ),
-                        TextFormField(
-                          controller: controllerSchool,
-                          decoration: const InputDecoration(labelText: "Colegio"),
-                          keyboardType: TextInputType.name,
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return "Ingrese Colegio";
+                              return "Enter password";
+                            } else if (value.length < 6) {
+                              return "Password should have at least 6 characters";
                             }
                             return null;
                           },
@@ -105,8 +101,8 @@ class _FirebaseSignUpState extends State<SignUp> {
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
                                 logInfo('SignUp validation form ok');
-                                await _signup(controllerName.text,
-                                    controllerGrade.text, controllerSchool.text);
+                                await _signup(controllerEmail.text,
+                                    controllerPassword.text);
                               } else {
                                 logError('SignUp validation form nok');
                               }

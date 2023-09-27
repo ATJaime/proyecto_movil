@@ -12,7 +12,7 @@ class Central extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthenticationController authenticationController = Get.find();
     return Obx(() => authenticationController.isLogged
-        ? const MyHomePage()
-        : const StartPage());
+        ? const StartPage()
+        : const MyHomePage());
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:operaciones/ui/controllers/authentication.dart';
 import 'package:loggy/loggy.dart';
-import 'controllers/controller.dart';
+import '../ui/controllers/authentication.dart';
 import 'signup.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,16 +13,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
-  final controllerName = TextEditingController();
-  final controllerGrade = TextEditingController();
-  final controllerSchool = TextEditingController();
-  MyController controller = Get.find();
+  final controllerEmail = TextEditingController();
+  final controllerPassword = TextEditingController();
   AuthenticationController authenticationController = Get.find();
 
-  _login(theName, theGrade, theSchool) async {
-    logInfo('_login $theName $theGrade, $theSchool');
+  _login(theEmail, thePassword) async {
+    logInfo('_login $theEmail $thePassword');
     try {
-      await authenticationController.login(theName, theGrade, theSchool);
+      await authenticationController.login(theEmail, thePassword);
     } catch (err) {
       Get.snackbar(
         "Login",
@@ -49,20 +46,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "",
+                      "Login with email",
                       style: TextStyle(fontSize: 20),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
-                      keyboardType: TextInputType.name,
-                      controller: controllerName,
+                      keyboardType: TextInputType.emailAddress,
+                      controller: controllerEmail,
                       decoration:
-                          const InputDecoration(labelText: "Nombre"),
+                          const InputDecoration(labelText: "Email address"),
                       validator: (String? value) {
                         if (value!.isEmpty) {
-                          return "Ingrese nombre";
+                          return "Enter email";
+                        } else if (!value.contains('@')) {
+                          return "Enter valid email address";
                         }
                         return null;
                       },
@@ -71,23 +70,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: controllerGrade,
-                      decoration: const InputDecoration(labelText: "Grado"),
+                      controller: controllerPassword,
+                      decoration: const InputDecoration(labelText: "Password"),
                       keyboardType: TextInputType.number,
+                      obscureText: true,
                       validator: (String? value) {
                         if (value!.isEmpty) {
-                          return "Ingrese Grado";
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: controllerSchool,
-                      decoration: const InputDecoration(labelText: "Colegio"),
-                      keyboardType: TextInputType.name,
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return "Ingrese Colegio";
+                          return "Enter password";
+                        } else if (value.length < 6) {
+                          return "Password should have at least 6 characters";
                         }
                         return null;
                       },
@@ -103,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           form!.save();
                           if (_formKey.currentState!.validate()) {
                             await _login(
-                                controllerName.text, controllerGrade.text, controllerSchool.text);
+                                controllerEmail.text, controllerPassword.text);
                           }
                         },
                         child: const Text("Submit")),
