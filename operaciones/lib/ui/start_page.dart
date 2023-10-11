@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:operaciones/ui/controllers/controller.dart';
-import 'package:operaciones/use_case/create_questions.dart';
+import 'package:operaciones/ui/controllers/user_controller.dart';
 import 'test_page.dart';
 
 class StartPage extends StatelessWidget {
@@ -30,7 +30,7 @@ class StartPage extends StatelessWidget {
                   color: Colors.blue[100],
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Text(
+                child: const Text(
                   '¡Bienvenido al Test de Matemáticas!\n\n'
                   'El test consta de tres niveles: Fácil, Intermedio y Difícil. '
                   'Debes responder un número específico de preguntas correctas para avanzar al siguiente nivel. '
@@ -50,7 +50,7 @@ class StartPage extends StatelessWidget {
             // Muestra el puntaje desde el controlador
             Obx(() => Text("Tu puntaje: ${controller.score}")),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,7 +61,7 @@ class StartPage extends StatelessWidget {
                     controller.updateCurrentOperation("Suma");
                     Get.to(() => TestPage());
                   },
-                  child: Text("Suma"),
+                  child: const Text("Suma"),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -69,7 +69,7 @@ class StartPage extends StatelessWidget {
                     controller.updateCurrentOperation("Multiplicación");
                     Get.to(() => TestPage());
                   },
-                  child: Text("Multiplicación"),
+                  child: const Text("Multiplicación"),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -77,7 +77,7 @@ class StartPage extends StatelessWidget {
                     controller.updateCurrentOperation("Resta");
                     Get.to(() => TestPage());
                   },
-                  child: Text("Resta"),
+                  child: const Text("Resta"),
                 ),
               ],
             ),

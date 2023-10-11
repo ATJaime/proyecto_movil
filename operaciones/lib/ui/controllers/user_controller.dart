@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 
 import '../../models/user.dart';
-import '../../use_case/user_case.dart';
+import '../../domain/repositories/use_case/user_case.dart';
 
 class UserController extends GetxController {
   final RxList<User> _users = <User>[].obs;
@@ -10,13 +10,7 @@ class UserController extends GetxController {
 
   List<User> get users => _users;
 
-  @override
-  void onInit() {
-    getUers();
-    super.onInit();
-  }
-
-  getUers() async {
+  getUsers() async {
     logInfo("Getting users");
     _users.value = await userUseCase.getUsers();
   }
@@ -24,21 +18,23 @@ class UserController extends GetxController {
   addUser(User user) async {
     logInfo("Add user");
     await userUseCase.addUser(user);
-    getUers();
   }
 
   updateUser(User user) async {
     logInfo("Update user");
     await userUseCase.updateUser(user);
-    getUers();
   }
 
   void deleteUser(int id) async {
     await userUseCase.deleteUser(id);
-    getUers();
   }
 
   void simulateProcess() async {
     await userUseCase.simulateProcess();
+  }
+
+  Future<User> getUser(String email) async {
+   User user = await userUseCase.getUser(email);
+   return user;
   }
 }

@@ -1,10 +1,18 @@
 import 'dart:math';
+
+import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
+import 'package:operaciones/models/user.dart';
+import 'package:operaciones/ui/controllers/controller.dart';
+import 'package:operaciones/ui/controllers/user_controller.dart';
 enum DifficultyLevel {
   easy,
   intermediate,
   difficult,
 }
 
+UserController userController = Get.find();
+MyController  controller = Get.find();
 
 class MathOperations {
   static String generateRandomOperation(DifficultyLevel level, String operation) {
@@ -65,6 +73,18 @@ class LevelManager {
    }
 }
 
+void updateDifficulty() async {
+      User user = await userController.getUser(controller.name);
+      DifficultyLevel l1 = controller.levels[0].value;
+      DifficultyLevel l2 = controller.levels[1].value;
+      DifficultyLevel l3 = controller.levels[2].value;
+
+      user.difficulties = [(l1 == DifficultyLevel.easy ? "easy" : l1 == DifficultyLevel.intermediate ? "intermediate" : "difficult"), 
+      (l2 == DifficultyLevel.easy ? "easy" : l2 == DifficultyLevel.intermediate ? "intermediate" : "difficult"), 
+      (l3 == DifficultyLevel.easy ? "easy" : l3 == DifficultyLevel.intermediate ? "intermediate" : "difficult")];
+      userController.updateUser(user);
+    }
+
   void almacenarQuestion(String userAnswer, String currentOperation, int time) {
     if (totalQuestions < 6) {
       // Obtener los componentes de la operación actual
@@ -93,22 +113,7 @@ class LevelManager {
         incorrectOperations.add("Operación: $currentOperation. \t Tiempo:  ${time.toString()} ms.");
       }
       totalQuestions++;
-    } else {
-      // Fin del nivel, genera un resumen
-      final levelSummary = LevelSummary(
-        correctAnswers: correctAnswers,
-        incorrectOperations:
-            incorrectOperations, // Agrega las operaciones incorrectas
-        correctOperations: correctOperations,
-      );
-      levelSummaries.add(levelSummary);
-       
-      // Reinicia el contador de preguntas y la lista de operaciones incorrectas
-      totalQuestions = 0;
-      incorrectOperations = [];
-      correctOperations = [];
     }
-
     
 
   }

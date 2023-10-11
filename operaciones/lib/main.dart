@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:operaciones/repositories/repository.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:operaciones/domain/repositories/repository.dart';
+import 'package:operaciones/models/some_data_db.dart';
 import 'package:operaciones/ui/central.dart';
-import 'package:operaciones/use_case/authentication_case.dart';
-import 'package:operaciones/use_case/user_case.dart';
+import 'package:operaciones/domain/repositories/use_case/authentication_case.dart';
+import 'package:operaciones/domain/repositories/use_case/user_case.dart';
 import 'package:operaciones/ui/controllers/authentication.dart';
 import 'package:operaciones/ui/controllers/user_controller.dart';
 import 'ui/controllers/controller.dart';
 import 'package:loggy/loggy.dart';
 
-void main() {
+Future<List<Box>> _openBox() async{
+  List<Box> boxList = [];
+  await Hive.initFlutter();
+  Hive.registerAdapter(SomeDataDbAdapter());
+  boxList.add(await Hive.openBox('someData'));
+  return boxList;
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _openBox();
   Get.lazyPut<MyController>(() => MyController());
   Loggy.initLoggy(
     logPrinter: const PrettyPrinter(

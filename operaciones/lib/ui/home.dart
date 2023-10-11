@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
+import 'package:operaciones/models/user.dart';
+import 'package:operaciones/ui/controllers/controller.dart';
+import 'package:operaciones/ui/controllers/user_controller.dart';
 import '../ui/controllers/authentication.dart';
 import 'signup.dart';
+
+enum DifficultyLevel {
+  easy,
+  intermediate,
+  difficult,
+}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -16,11 +25,16 @@ class _MyHomePageState extends State<MyHomePage> {
   final controllerEmail = TextEditingController();
   final controllerPassword = TextEditingController();
   AuthenticationController authenticationController = Get.find();
+  UserController userController = Get.find();
+  MyController myController = Get.find();
 
   _login(theEmail, thePassword) async {
     logInfo('_login $theEmail $thePassword');
     try {
       await authenticationController.login(theEmail, thePassword);
+      User user = await userController.getUser(theEmail);
+      myController.updateLevels(user.difficulties);
+      myController.updateName(theEmail);
     } catch (err) {
       Get.snackbar(
         "Login",
@@ -88,7 +102,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     OutlinedButton(
                         onPressed: () async {
-                          // this line dismiss the keyboard by taking away the focus of the TextFormField and giving it to an unused
                           FocusScope.of(context).requestFocus(FocusNode());
                           final form = _formKey.currentState;
                           form!.save();

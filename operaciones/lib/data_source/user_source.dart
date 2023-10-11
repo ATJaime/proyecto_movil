@@ -4,7 +4,7 @@ import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserDataSource {
-  final String apiKey = 'LhNVPc';
+  final String apiKey = 'gjIv2m';
 
   Future<List<User>> getUsers() async {
     List<User> users = [];
@@ -100,5 +100,24 @@ class UserDataSource {
       logError("Got error code ${response.statusCode}");
       return Future.error('Error code ${response.statusCode}');
     }
+  }
+
+  Future<User> getUser(String email) async {
+    User user;
+    var request = await http.get(Uri.parse("https://retoolapi.dev/$apiKey/data?email=$email"), 
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      },);
+    if (request.statusCode == 200) {
+      final data = jsonDecode(request.body);
+      logInfo(data);
+      user = List<User>.from(data.map((x) => User.fromJson(x)))[0];
+      
+    } else {
+      logError("Got error code ${request.statusCode}");
+      return Future.error('Error code ${request.statusCode}');
+    }
+
+    return Future.value(user);
   }
 }

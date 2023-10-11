@@ -1,4 +1,4 @@
-import 'package:operaciones/use_case/authentication_case.dart';
+import 'package:operaciones/domain/repositories/use_case/authentication_case.dart';
 import 'package:get/get.dart';
 
 import 'package:loggy/loggy.dart';

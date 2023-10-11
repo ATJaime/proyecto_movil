@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:operaciones/ui/controllers/controller.dart';
-import '../use_case/create_questions.dart';
+import '../domain/repositories/use_case/create_questions.dart';
 import './LevelSummaryPage.dart'; 
 
 class TestPage extends StatefulWidget {
@@ -196,6 +196,7 @@ class _TestPageState extends State<TestPage> {
                               setState(() {
                                 finished = true;
                                 //
+                                levelManager.updateDifficulty();
                                 controller.updateCorrectAnswers(levelManager.correctAnswers);
                                 controller.updateCurrentLevel(levelManager.getCurrentLevel(controller.lastCorrectAnswers, controller.currentLevel));
                               });

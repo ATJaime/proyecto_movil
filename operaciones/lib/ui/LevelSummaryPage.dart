@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:operaciones/ui/controllers/controller.dart';
 import 'package:operaciones/ui/start_page.dart';
-import '../use_case/create_questions.dart';
+import '../domain/repositories/use_case/create_questions.dart';
 import 'package:get/get.dart';
 import 'test_page.dart';
 
 class LevelSummaryPage extends StatelessWidget {
   final LevelSummary levelSummary;
 
-  LevelSummaryPage({required this.levelSummary});
+  LevelSummaryPage({super.key, required this.levelSummary});
   MyController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Resumen del Nivel'),
+        title: const Text('Resumen del Nivel'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            const Text(
               'Resumen del Nivel',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Preguntas Correctas: ${levelSummary.correctAnswers}',
-              style: TextStyle(fontSize: 18, color: Colors.green),
+              style: const TextStyle(fontSize: 18, color: Colors.green),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Preguntas Incorrectas:',
               style: TextStyle(fontSize: 18, color: Colors.red),
             ),
@@ -39,12 +39,12 @@ class LevelSummaryPage extends StatelessWidget {
                 children: [
                   Text(
                     levelSummary.incorrectOperations[i],
-                    style: TextStyle(fontSize: 16, color: Colors.red),
+                    style: const TextStyle(fontSize: 16, color: Colors.red),
                   ),
                 ],
               ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Respuestas Correctas:',
               style: TextStyle(fontSize: 18, color: Colors.green),
             ),
@@ -53,24 +53,24 @@ class LevelSummaryPage extends StatelessWidget {
                 children: [
                   Text(
                     levelSummary.correctOperations[i],
-                    style: TextStyle(fontSize: 16, color: Colors.green),
+                    style: const TextStyle(fontSize: 16, color: Colors.green),
                   ),
                 ],
               ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                  final snackBar = SnackBar(
                 content: Text('¡Enhorabuena! Has pasado al nivel ${controller.currentLevel.toString().split('.').last}'),
-                duration: Duration(seconds: 3), // Duración del mensaje flotante
+                duration: const Duration(seconds: 3), // Duración del mensaje flotante
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                 Get.to(() => TestPage());
               },
-              child: Text('Continuar'),
+              child: const Text('Continuar'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Reinicia los valores necesarios en MyController antes de regresar a StartPage
@@ -78,9 +78,9 @@ class LevelSummaryPage extends StatelessWidget {
                 controller.updateCorrectAnswers(0);
 
                 // Regresa a StartPage
-                Get.offAll(() => StartPage());
+                Get.offAll(() => const StartPage());
               },
-              child: Text('Terminar y Empezar de Nuevo'),
+              child: const Text('Terminar y Empezar de Nuevo'),
             ),
           ],
         ),

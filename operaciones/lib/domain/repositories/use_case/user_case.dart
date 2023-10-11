@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
 
-import '../models/user.dart';
-import '../repositories/repository.dart';
+import '../../../models/user.dart';
+import '../repository.dart';
 
 class UserUseCase {
   final Repository _repository = Get.find();
@@ -22,4 +22,6 @@ class UserUseCase {
   deleteUser(int id) async => await _repository.deleteUser(id);
 
   simulateProcess() async => await _repository.simulateProcess();
-}
+
+  getUser(String email) async => await _repository.getUser(email);
+  }

@@ -12,6 +12,7 @@ class AuthenticationDatatasource {
       body: jsonEncode(<String, String>{
         "username": email,
         "password": password,
+        
       }),
     );
 
@@ -32,17 +33,18 @@ class AuthenticationDatatasource {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         "username": email,
         "first_name": email,
         "last_name": email,
         "password": password,
+        "difficulties": ["easy", "easy", "easy"]
       }),
     );
 
     logInfo(response.statusCode);
     if (response.statusCode == 200) {
-      //logInfo(response.body);
+      logInfo(response.body);
       return Future.value(true);
     } else {
       logError("Got error code ${response.statusCode}");

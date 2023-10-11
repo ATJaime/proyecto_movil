@@ -1,7 +1,7 @@
 import 'package:operaciones/data_source/authentication_source.dart';
 
-import '../data_source/user_source.dart';
-import '../models/user.dart';
+import '../../data_source/user_source.dart';
+import '../../models/user.dart';
 
 class Repository {
   late AuthenticationDatatasource _authenticationDataSource;
@@ -10,7 +10,7 @@ class Repository {
 
   // the base url of the API should end without the /
   final String _baseUrl =
-      'http://ip172-18-0-24-cka3udcsnmng00dvqcag-8000.direct.labs.play-with-docker.com';
+      'http://ip172-18-0-15-ckjg32ggftqg00bu8erg-8000.direct.labs.play-with-docker.com';
 
   Repository() {
     _authenticationDataSource = AuthenticationDatatasource();
@@ -40,4 +40,7 @@ class Repository {
 
   Future<bool> simulateProcess() async =>
       await _userDatatasource.simulateProcess(_baseUrl, token);
+
+  Future<User> getUser(String email) async =>
+      await _userDatatasource.getUser(email);
 }

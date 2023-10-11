@@ -1,4 +1,4 @@
-import 'package:operaciones/repositories/repository.dart';
+import 'package:operaciones/domain/repositories/repository.dart';
 import 'package:get/get.dart';
 
 class AuthenticationUseCase {

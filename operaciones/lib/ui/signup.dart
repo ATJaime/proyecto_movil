@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loggy/loggy.dart';
+import 'package:operaciones/models/user.dart';
+import 'package:operaciones/ui/controllers/user_controller.dart';
 import '../ui/controllers/authentication.dart';
 
 class SignUp extends StatefulWidget {
@@ -15,6 +17,7 @@ class _FirebaseSignUpState extends State<SignUp> {
   final controllerEmail = TextEditingController(text: 'a@a.com');
   final controllerPassword = TextEditingController(text: '123456');
   AuthenticationController authenticationController = Get.find();
+  UserController userController = Get.find();
 
   _signup(theEmail, thePassword) async {
     try {
@@ -26,6 +29,15 @@ class _FirebaseSignUpState extends State<SignUp> {
         icon: const Icon(Icons.person, color: Colors.red),
         snackPosition: SnackPosition.BOTTOM,
       );
+      
+      User user = User(
+        firstName: theEmail,
+        lastName: theEmail,
+        email: theEmail,
+        difficulties: ["easy", "easy", "easy"] 
+      );
+      userController.addUser(user);
+      
     } catch (err) {
       logError('SignUp error $err');
       Get.snackbar(
@@ -97,7 +109,6 @@ class _FirebaseSignUpState extends State<SignUp> {
                             onPressed: () async {
                               final form = _formKey.currentState;
                               form!.save();
-                              // this line dismiss the keyboard by taking away the focus of the TextFormField and giving it to an unused
                               FocusScope.of(context).requestFocus(FocusNode());
                               if (_formKey.currentState!.validate()) {
                                 logInfo('SignUp validation form ok');
