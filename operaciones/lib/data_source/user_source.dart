@@ -4,7 +4,7 @@ import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserDataSource {
-  final String apiKey = 'gjIv2m';
+  final String apiKey = 'vKj148';
 
   Future<List<User>> getUsers() async {
     List<User> users = [];
@@ -56,9 +56,8 @@ class UserDataSource {
       },
       body: jsonEncode(user.toJson()),
     );
-
     if (response.statusCode == 201) {
-      //logInfo(response.body);
+      logInfo(response.body);
       return Future.value(true);
     } else {
       logError("Got error code ${response.statusCode}");
@@ -80,25 +79,6 @@ class UserDataSource {
     } else {
       logError("Got error code ${response.statusCode}");
       return Future.value(false);
-    }
-  }
-
-  Future<bool> simulateProcess(String baseUrl, String token) async {
-    final response = await http.get(
-      Uri.parse("$baseUrl/me"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token'
-      },
-    );
-
-    logInfo(response.statusCode);
-    if (response.statusCode == 200) {
-      logInfo('simulateProcess access ok');
-      return Future.value(true);
-    } else {
-      logError("Got error code ${response.statusCode}");
-      return Future.error('Error code ${response.statusCode}');
     }
   }
 

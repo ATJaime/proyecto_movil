@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:operaciones/ui/central.dart';
 import 'package:operaciones/ui/controllers/controller.dart';
+import 'package:operaciones/ui/controllers/user_controller.dart';
 import '../domain/repositories/use_case/create_questions.dart';
 import './LevelSummaryPage.dart'; 
 
@@ -10,7 +12,10 @@ class TestPage extends StatefulWidget {
   @override
   _TestPageState createState() => _TestPageState();
 }
+
+
 MyController controller = Get.find();
+UserController userController = Get.find();
 class _TestPageState extends State<TestPage> {
   final TextEditingController resultController = TextEditingController();
   int time = 0;
@@ -19,7 +24,7 @@ class _TestPageState extends State<TestPage> {
   bool finished =
       false; // Bandera para verificar si se ha finalizado el cuestionario
   bool isNegative = false;
-  int tiempoRestante = 60 * 1000; // 60 segundos convertidos a milisegundos
+  int tiempoRestante = 600 * 1000; // 60 segundos convertidos a milisegundos
 
   @override
   void initState() {
@@ -71,9 +76,11 @@ class _TestPageState extends State<TestPage> {
   }
   @override
   Widget build(BuildContext context) {
+    userController.updateUser(controller.user.value);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Test Page"),
+        title: const Text("Test Page"),
+        actions: [IconButton(onPressed: () {Get.off(() => const Central());}, icon: const Icon(Icons.home))],
       ),
       body: Center(
         child: Padding(
@@ -81,9 +88,7 @@ class _TestPageState extends State<TestPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
-
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.blue,
@@ -92,7 +97,7 @@ class _TestPageState extends State<TestPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   currentOperation,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 36,
                     color: Colors.white,
                   ),
@@ -107,12 +112,12 @@ class _TestPageState extends State<TestPage> {
                 margin: const EdgeInsets.symmetric(vertical: 10.0),
                 child: TextField(
                   controller: resultController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Ingrese su respuesta',
                     hintStyle: TextStyle(color: Colors.grey),
                   ),
-                  style: TextStyle(fontSize: 10),
+                  style: const TextStyle(fontSize: 10),
                 ),
               ),
 
@@ -196,9 +201,10 @@ class _TestPageState extends State<TestPage> {
                               setState(() {
                                 finished = true;
                                 //
-                                levelManager.updateDifficulty();
+                                
                                 controller.updateCorrectAnswers(levelManager.correctAnswers);
                                 controller.updateCurrentLevel(levelManager.getCurrentLevel(controller.lastCorrectAnswers, controller.currentLevel));
+                                levelManager.updateDifficulty();
                               });
 
                               // Navegar a la página de resumen cuando el cuestionario haya finalizado

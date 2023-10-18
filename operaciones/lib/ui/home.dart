@@ -33,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       await authenticationController.login(theEmail, thePassword);
       User user = await userController.getUser(theEmail);
+      myController.updateUser(user);
       myController.updateLevels(user.difficulties);
-      myController.updateName(theEmail);
     } catch (err) {
       Get.snackbar(
         "Login",
@@ -67,15 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 20,
                     ),
                     TextFormField(
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.name,
                       controller: controllerEmail,
                       decoration:
-                          const InputDecoration(labelText: "Email address"),
+                          const InputDecoration(labelText: "Name"),
                       validator: (String? value) {
                         if (value!.isEmpty) {
-                          return "Enter email";
-                        } else if (!value.contains('@')) {
-                          return "Enter valid email address";
+                          return "Enter name";
                         }
                         return null;
                       },

@@ -64,17 +64,33 @@ class LevelManager {
 
   DifficultyLevel getCurrentLevel(lastCorrectAnswers, DifficultyLevel previous) {
 
-  if ( previous == DifficultyLevel.easy  && lastCorrectAnswers >= 5) {
-      return DifficultyLevel.intermediate;
-    } else if (previous ==  DifficultyLevel.intermediate && lastCorrectAnswers >= 4) {
-      return DifficultyLevel.difficult;
-    } else {
-      return DifficultyLevel.easy; // Mantén el nivel actual si no se cumplen las condiciones
-   }
+    switch (previous) {
+      case DifficultyLevel.easy: 
+        if (lastCorrectAnswers >= 5){
+          return DifficultyLevel.intermediate;
+        }else {
+          return DifficultyLevel.easy;
+        }
+      case DifficultyLevel.intermediate:
+        if (lastCorrectAnswers >= 5){
+          return DifficultyLevel.difficult;
+        }else if(lastCorrectAnswers <= 3){
+          return DifficultyLevel.easy;
+        }else{
+          return DifficultyLevel.intermediate;
+        }
+      case DifficultyLevel.difficult:
+        if(lastCorrectAnswers <= 3){
+            return DifficultyLevel.intermediate;
+          }else{
+            return DifficultyLevel.difficult;
+          }
+    }
 }
 
-void updateDifficulty() async {
-      User user = await userController.getUser(controller.name);
+void updateDifficulty() {
+      logInfo("----------------------------IMPORTANTE----------------------------");
+      User user = controller.user.value;
       DifficultyLevel l1 = controller.levels[0].value;
       DifficultyLevel l2 = controller.levels[1].value;
       DifficultyLevel l3 = controller.levels[2].value;
@@ -82,7 +98,11 @@ void updateDifficulty() async {
       user.difficulties = [(l1 == DifficultyLevel.easy ? "easy" : l1 == DifficultyLevel.intermediate ? "intermediate" : "difficult"), 
       (l2 == DifficultyLevel.easy ? "easy" : l2 == DifficultyLevel.intermediate ? "intermediate" : "difficult"), 
       (l3 == DifficultyLevel.easy ? "easy" : l3 == DifficultyLevel.intermediate ? "intermediate" : "difficult")];
+
+      controller.updateUser(user);
       userController.updateUser(user);
+      userController.updateUserLocal(user);
+      logInfo("----------------------------FIN----------------------------");
     }
 
   void almacenarQuestion(String userAnswer, String currentOperation, int time) {

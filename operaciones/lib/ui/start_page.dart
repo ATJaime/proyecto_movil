@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loggy/loggy.dart';
+import 'package:operaciones/ui/controllers/authentication.dart';
 import 'package:operaciones/ui/controllers/controller.dart';
-import 'package:operaciones/ui/controllers/user_controller.dart';
 import 'test_page.dart';
 
 class StartPage extends StatelessWidget {
@@ -11,10 +12,12 @@ class StartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Obtener el controlador
     MyController controller = Get.find();
+    AuthenticationController authenticationController = Get.find();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Selecciona la Operacion'),
+        title: const Text('Selecciona la Operación'),
+        actions: [IconButton(icon: const Icon(Icons.logout), onPressed: () => authenticationController.logOut())]
       ),
       body: Center(
         child: Column(
@@ -45,11 +48,9 @@ class StartPage extends StatelessWidget {
             ),
            
             // Muestra el nombre desde el controlador
-            Obx(() => Text("¡Hola, ${controller.name}!")),
+            Obx(() => Text("¡Hola, ${controller.user.value.name}!")),
             
             // Muestra el puntaje desde el controlador
-            Obx(() => Text("Tu puntaje: ${controller.score}")),
-
             const SizedBox(height: 20),
 
             Row(

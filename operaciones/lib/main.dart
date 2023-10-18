@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:operaciones/data_source/local_data_source.dart';
 import 'package:operaciones/domain/repositories/repository.dart';
 import 'package:operaciones/models/some_data_db.dart';
 import 'package:operaciones/ui/central.dart';
@@ -31,6 +32,7 @@ void main() async {
   );
 
   Get.put(Repository());
+  Get.put(LocalDataSource());
   Get.put(AuthenticationUseCase());
   Get.put(UserUseCase());
   Get.put(AuthenticationController());
@@ -44,10 +46,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Operaciones',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: const Central(),
     );
   }
