@@ -84,7 +84,7 @@ class UserDataSource {
 
   Future<User> getUser(String email) async {
     User user;
-    var request = await http.get(Uri.parse("https://retoolapi.dev/$apiKey/data?email=$email"), 
+    var request = await http.get(Uri.parse("https://retoolapi.dev/$apiKey/data?name=$email"), 
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       },);
